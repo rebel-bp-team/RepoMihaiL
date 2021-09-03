@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
+        padding: 10,
     },
     image: {
         width: 100,
@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: 'bold',
         width:120, 
+        color:'#FFFFFF',
         textAlign:'center'
     },
     checkbox:{ 
