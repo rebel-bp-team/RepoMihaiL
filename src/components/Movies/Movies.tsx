@@ -26,15 +26,14 @@ const Movies= prop => {
         onLoad();
         }, [])
 
-        const baseUrl: string = 'http://www.omdbapi.com/?apikey=3c010079&'; 
         const onChangeText = (text:string) => {
             setSearchText(text);
         };
         const onFocusText = () => {setSearchText("")};
 
         const search= (text:string) =>{
-            axios (baseUrl+ "s="+ text).then(({ data }) => {
-                setResultList(data.Search);
+            filterMovies(text).then((data) => {
+                setResultList(data);
             }) 
         }
 
@@ -61,7 +60,7 @@ const Movies= prop => {
             {resultList?<Text style={styles.title}>List Of Movies</Text>:<></>}
                 <FlatList
                     data={ resultList }
-                    renderItem={({item}) => <MovieItem movie={item} onFavoritesChange ={onFavoritesLoad} /> }
+                    renderItem={({item}) => <MovieItem movie={item} onFavoritesChange ={onFavoritesLoad} isFavorite={false} /> }
                     horizontal
                     showsHorizontalScrollIndicator={false}
                 />
@@ -69,7 +68,7 @@ const Movies= prop => {
             <Text style={styles.title}>List Of Favorites</Text>
             <FlatList
                     data={ favoriteList }
-                    renderItem={({item}) => <MovieItem movie={item} /> }
+                    renderItem={({item}) => <MovieItem movie={item} onFavoritesChange ={onFavoritesLoad} isFavorite={true} /> }
                     horizontal
                     showsHorizontalScrollIndicator={false}
                 />

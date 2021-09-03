@@ -16,7 +16,6 @@ export const getKeys = async():Promise<string[]> => {
 export const removeItembyKey = async (key:string) => {
     try {
         await AsyncStorage.removeItem(key);
-        console.log("isremoved");
 
     }
     catch(e){
@@ -38,7 +37,6 @@ export const getAllFavorites = async (keys:string[]) => {
 export const addItemtoFavorites = async (key:string,item:Movie) => {
     try {
         await AsyncStorage.setItem(key,JSON.stringify(item));
-        console.log("isadded");
     }
     catch(e){
         console.log("error at key: ",key);

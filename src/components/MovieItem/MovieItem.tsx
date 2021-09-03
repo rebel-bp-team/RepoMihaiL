@@ -7,29 +7,42 @@ import { Movie } from '../../models/movie.model';
 import styles from './styles';
 
 
-const MovieItem = ({ movie, onFavoritesChange }: {movie: Movie, onFavoritesChange?:any}) => {
+const MovieItem = ({ movie, onFavoritesChange, isFavorite }: {movie: Movie, onFavoritesChange?:any,isFavorite:boolean}) => {
     const [toggleCheckBox, setToggleCheckBox] = useState(false)
     const onValueChange = (newToggleValue) => {
         setToggleCheckBox(newToggleValue);
     }
     useEffect(()  => {
-        if (toggleCheckBox){
-            const onToggleChange = async () => {
-                await addItemtoFavorites(movie.imdbID,movie);
-                await onFavoritesChange();
-             }
-             onToggleChange();
+        if(isFavorite)
+        {
+            if (toggleCheckBox){
+                const onToggleChange = async () => {
+                    await removeItembyKey(movie.imdbID);
+                    setToggleCheckBox(false);
+                    await onFavoritesChange();
+                }
+                onToggleChange();
+            }  
+        }
+        else{
+            if (toggleCheckBox){
+                const onToggleChange = async () => {
+                    await addItemtoFavorites(movie.imdbID,movie);
+                    await onFavoritesChange();
+                }
+                onToggleChange();
+            }
         }
     }, [toggleCheckBox])
     return (
         <Pressable style={styles.container}>
-           { onFavoritesChange? <CheckBox style={styles.checkbox}
+           <CheckBox style={styles.checkbox}
                     disabled={false}
                     value={toggleCheckBox}
                     onValueChange={ onValueChange }
                     tintColors={{ true: '#F15927', false: 'yellow' }}
-            />:<></>
-            }
+            />
+           
             <Image style={styles.image} source={{ uri: movie.Poster }} />
             <Text style={styles.title}>{movie.Title}</Text>
         </Pressable>
